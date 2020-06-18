@@ -1,20 +1,21 @@
 package filereader;
 
-import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.text.Text;
 
 public class TextFilePane extends BorderPane {
-	private static TextArea outputArea;
+	private static Text outputArea;
 	
 	TextFilePane() {
-		outputArea = new TextArea();
+		outputArea = new Text();
+		outputArea.setFont(Utils.font);
 		setCenter(outputArea);
 	}
 
 	/**
-	 * @return the outputArea
+	 * @return the output TextArea
 	 */
-	public static TextArea getOutputArea() {
+	public static Text getOutputArea() {
 		return outputArea;
 	}
 }

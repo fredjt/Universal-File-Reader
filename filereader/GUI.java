@@ -5,13 +5,16 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class GUI extends Application {
+	public static Stage newPrimaryStage;
+	
 	@Override
-	public void start(Stage primaryStage) throws Exception {
+	public void start(Stage primaryStage) {
+		newPrimaryStage = new Stage();
 		MainPane pane = new MainPane();
 		Scene scene = new Scene(pane);
-		primaryStage.setScene(scene);
-		primaryStage.setMaximized(true);
-		primaryStage.show();
+		newPrimaryStage.setScene(scene);
+		newPrimaryStage.setMaximized(true);
+		newPrimaryStage.show();
 	}
 	
 	public static void main(String[] args) {

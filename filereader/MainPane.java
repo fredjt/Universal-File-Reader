@@ -1,15 +1,15 @@
 package filereader;
 
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 
-public class MainPane extends BorderPane {
+public class MainPane extends GridPane {
 	TextFilePane textPane;
 	
 	MainPane() {
 		MainToolbar mainToolbar = new MainToolbar();
 		textPane = new TextFilePane();
-		setTop(mainToolbar);
-		setCenter(textPane);
+		add(mainToolbar, 0, 0);
+		add(textPane, 0, 1);
 	}
 
 	/**

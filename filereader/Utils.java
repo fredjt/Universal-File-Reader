@@ -1,12 +1,14 @@
 package filereader;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 
+import javafx.scene.text.Font;
+
 public class Utils {
 	public static File currentFile;
+	public static Font font = new Font(12);
 	
 	private Utils() {}
 	

@@ -6,11 +6,11 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-public class MainToolbar extends FlowPane {
+public class MainToolbar extends HBox {
 	private TextField pathField;
 	
 	MainToolbar() {
@@ -29,7 +29,7 @@ public class MainToolbar extends FlowPane {
 			Utils.currentFile = fileChooser.showOpenDialog(new Stage());
 			pathField.setText(Utils.currentFile.toString());
 			try {
-				TextFilePane.getOutputArea().setText(Utils.readFileLines(Utils.currentFile, 10));
+				TextFilePane.getOutputArea().setText(Utils.readFileLines(Utils.currentFile, (int) (GUI.newPrimaryStage.getHeight() / 17)));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
