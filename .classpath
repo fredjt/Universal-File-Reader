@@ -2,5 +2,6 @@
 <classpath>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path=""/>
+	<classpathentry kind="lib" path="Notepad.jar" sourcepath="C:/Users/Home PC/OneDrive - Knights - University of Central Florida/Trent School/Principles of Computer Programming/jdk1.8.0_241/demo/jfc/Notepad/src.zip"/>
 	<classpathentry kind="output" path=""/>
 </classpath>

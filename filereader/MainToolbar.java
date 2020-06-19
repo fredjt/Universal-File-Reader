@@ -12,9 +12,10 @@ import javafx.stage.Stage;
 
 public class MainToolbar extends HBox {
 	private TextField pathField;
+	private static Button openButton;
 	
 	MainToolbar() {
-		Button openButton = new Button("Open");
+		openButton = new Button("Open");
 		openButton.setOnAction(new OpenFileHandler());
 		
 		pathField = new TextField();
@@ -26,12 +27,11 @@ public class MainToolbar extends HBox {
 		@Override
 		public void handle(ActionEvent event) {
 			FileChooser fileChooser = new FileChooser();
-			Utils.currentFile = fileChooser.showOpenDialog(new Stage());
-			pathField.setText(Utils.currentFile.toString());
+			TextFileUtils.setCurrentFile(fileChooser.showOpenDialog(new Stage()));
+			pathField.setText(TextFileUtils.getCurrentFile().toString());
 			try {
-				TextFilePane.getOutputArea().setText(Utils.readFileLines(Utils.currentFile, (int) (GUI.newPrimaryStage.getHeight() / 17)));
+				TextFileUtils.readFileLines(TextFileUtils.getCurrentFile());
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
