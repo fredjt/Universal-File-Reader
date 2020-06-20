@@ -23,7 +23,6 @@ public class Utils {
 		if (file.length() > 0 && !reader.hasNextLine()) {
 			BinaryFileUtils fileOpener = new BinaryFileUtils(outputArea);
 			fileOpener.readFile(file);
-			outputArea.setText("Binary");
 		} else {
 			TextFileUtils fileOpener = new TextFileUtils(outputArea);
 			fileOpener.readFile(file);
