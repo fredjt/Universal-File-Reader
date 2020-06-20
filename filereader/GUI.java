@@ -6,13 +6,13 @@ import javafx.stage.Stage;
 
 public class GUI extends Application {
 	private static Stage newPrimaryStage;
-	private static Scene scene;
 	private static MainPane pane;
-	
+	private static Scene scene;
+
 	public static void main(String[] args) {
 		launch();
 	}
-	
+
 	@Override
 	public void start(Stage primaryStage) {
 		newPrimaryStage = new Stage();

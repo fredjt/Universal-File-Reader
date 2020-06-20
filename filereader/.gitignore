@@ -9,3 +9,6 @@
 /TextFilePane$1.class
 /TextFileUtils.class
 /TextFileContentsLoader.class
+/SelectEditor$Editors.class
+/SelectEditor.class
+/FileEditors.class
