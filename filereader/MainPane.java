@@ -1,5 +1,7 @@
 package filereader;
 
+import java.io.IOException;
+
 import filereader.textreader.TextFilePane;
 import javafx.scene.layout.BorderPane;
 
@@ -11,7 +13,7 @@ public class MainPane extends BorderPane {
 		return textPane;
 	}
 
-	MainPane() {
+	MainPane() throws IOException {
 		textPane = new TextFilePane();
 		mainToolbar = new MainToolbar(textPane.getOutputArea());
 		setTop(mainToolbar);

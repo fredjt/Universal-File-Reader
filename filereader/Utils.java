@@ -15,6 +15,7 @@ public class Utils {
 		this.outputArea = outputArea;
 	}
 
+	@SuppressWarnings("unused")
 	private Utils() {
 	}
 

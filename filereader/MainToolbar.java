@@ -1,5 +1,6 @@
 package filereader;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import filereader.textreader.TextFileUtils;
@@ -29,18 +30,32 @@ public class MainToolbar extends HBox {
 	}
 
 	private static Button openButton;
-
 	private TextArea outputArea;
-
 	private TextField pathField;
 
-	MainToolbar(TextArea outputArea) {
+	MainToolbar(TextArea outputArea) throws IOException {
 		this.outputArea = outputArea;
 		openButton = new Button("Open");
 		openButton.setOnAction(new OpenFileHandler());
-
 		pathField = new TextField();
-		getChildren().addAll(openButton, pathField);
 		pathField.setPrefColumnCount(50);
+		pathField.setEditable(false);
+		getChildren().addAll(openButton, pathField);
+		if (!(GUI.file == null)) {
+			if (GUI.file.isFile()) {
+				TextFileUtils.setCurrentFile(GUI.file);
+				pathField.setText(TextFileUtils.getCurrentFile().toString());
+				GUI.file = null;
+				try {
+					Utils fileOpener = new Utils(outputArea);
+					fileOpener.openEditor(TextFileUtils.getCurrentFile());
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			} else {
+				throw new FileNotFoundException("File does not exist!");
+			}
+		}
+
 	}
 }
