@@ -2,7 +2,7 @@
 name: File support
 about: Suggest additional file types to be supported
 title: "[FILE SUPPORT]"
-labels: ''
+labels: enhancement
 assignees: fredjt
 
 ---
