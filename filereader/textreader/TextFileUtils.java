@@ -24,6 +24,7 @@ public class TextFileUtils {
 		this.outputArea = outputArea;
 	}
 
+	@SuppressWarnings("unused")
 	private TextFileUtils() {
 	}
 

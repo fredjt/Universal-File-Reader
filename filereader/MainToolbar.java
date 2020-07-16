@@ -56,6 +56,5 @@ public class MainToolbar extends HBox {
 				throw new FileNotFoundException("File does not exist!");
 			}
 		}
-
 	}
 }

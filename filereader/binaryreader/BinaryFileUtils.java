@@ -13,6 +13,7 @@ public class BinaryFileUtils {
 		this.outputArea = outputArea;
 	}
 
+	@SuppressWarnings("unused")
 	private BinaryFileUtils() {
 	}
 
