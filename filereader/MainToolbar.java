@@ -38,8 +38,8 @@ public class MainToolbar extends JPanel {
 	private static JTextPane outputArea;
 	private static JTextField pathField;
 
-	MainToolbar(JTextPane outputArea) throws IOException {
-		MainToolbar.outputArea = outputArea;
+	MainToolbar(JTextPane textPane) throws IOException {
+		MainToolbar.outputArea = textPane;
 		openButton = new JButton("Open");
 		openButton.addActionListener(new ActionListener() {
 
@@ -59,7 +59,7 @@ public class MainToolbar extends JPanel {
 				pathField.setText(TextFileUtils.getCurrentFile().toString());
 				GUI.file = null;
 				try {
-					Utils fileOpener = new Utils(outputArea);
+					Utils fileOpener = new Utils(textPane);
 					fileOpener.openEditor(TextFileUtils.getCurrentFile());
 				} catch (IOException | BadLocationException e) {
 					e.printStackTrace();

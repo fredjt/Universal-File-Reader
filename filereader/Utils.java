@@ -13,8 +13,8 @@ import filereader.textreader.TextFileUtils;
 public class Utils {
 	private JTextPane outputArea;
 
-	public Utils(JTextPane outputArea) {
-		this.outputArea = outputArea;
+	public Utils(JTextPane textPane) {
+		this.outputArea = textPane;
 	}
 
 	@SuppressWarnings("unused")

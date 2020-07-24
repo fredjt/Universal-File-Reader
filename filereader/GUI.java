@@ -1,11 +1,9 @@
 package filereader;
 
-import java.awt.BorderLayout;
 import java.io.File;
 import java.io.IOException;
 
 import javax.swing.JFrame;
-import javax.swing.JTextPane;
 
 @SuppressWarnings({ "serial" })
 public class GUI extends JFrame {
@@ -23,20 +21,5 @@ public class GUI extends JFrame {
 		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		frame.setExtendedState(MAXIMIZED_BOTH);
 		frame.setVisible(true);
-	}
-}
-
-@SuppressWarnings("serial")
-class TextFilePane extends JTextPane {
-	private JTextPane outputArea;
-
-	public TextFilePane() {
-		outputArea = new JTextPane();
-
-		add(outputArea, BorderLayout.CENTER);
-	}
-
-	public JTextPane getOutputArea() {
-		return outputArea;
 	}
 }

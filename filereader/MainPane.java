@@ -19,6 +19,7 @@ public class MainPane extends JPanel {
 	MainPane() throws IOException {
 		setLayout(new BorderLayout());
 		textPane = new JTextPane();
+		textPane.setEditable(false);
 		JScrollPane scrollPane = new JScrollPane(textPane);
 		mainToolbar = new MainToolbar(textPane);
 		add(mainToolbar, BorderLayout.NORTH);
