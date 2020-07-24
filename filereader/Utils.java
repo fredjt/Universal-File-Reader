@@ -4,22 +4,24 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
 
+import javax.swing.JTextPane;
+import javax.swing.text.BadLocationException;
+
 import filereader.binaryreader.BinaryFileUtils;
 import filereader.textreader.TextFileUtils;
-import javafx.scene.control.TextArea;
 
 public class Utils {
-	private TextArea outputArea;
+	private JTextPane outputArea;
 
-	public Utils(TextArea outputArea) {
-		this.outputArea = outputArea;
+	public Utils(JTextPane textPane) {
+		this.outputArea = textPane;
 	}
 
 	@SuppressWarnings("unused")
 	private Utils() {
 	}
 
-	public void openEditor(File file) throws IOException {
+	public void openEditor(File file) throws IOException, BadLocationException {
 		Scanner reader = new Scanner(file);
 		if (file.length() > 0 && !reader.hasNextLine()) {
 			BinaryFileUtils fileOpener = new BinaryFileUtils(outputArea);
