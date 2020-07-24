@@ -1,22 +1,27 @@
 package filereader;
 
+import java.awt.BorderLayout;
 import java.io.IOException;
 
-import filereader.textreader.TextFilePane;
-import javafx.scene.layout.BorderPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextPane;
 
-public class MainPane extends BorderPane {
+@SuppressWarnings("serial")
+public class MainPane extends JPanel {
 	private static MainToolbar mainToolbar;
-	private static TextFilePane textPane;
+	private static JTextPane textPane;
 
-	public static TextFilePane getTextPane() {
+	public static JTextPane getTextPane() {
 		return textPane;
 	}
 
 	MainPane() throws IOException {
-		textPane = new TextFilePane();
-		mainToolbar = new MainToolbar(textPane.getOutputArea());
-		setTop(mainToolbar);
-		setCenter(textPane);
+		setLayout(new BorderLayout());
+		textPane = new JTextPane();
+		JScrollPane scrollPane = new JScrollPane(textPane);
+		mainToolbar = new MainToolbar(textPane);
+		add(mainToolbar, BorderLayout.NORTH);
+		add(scrollPane, BorderLayout.CENTER);
 	}
 }

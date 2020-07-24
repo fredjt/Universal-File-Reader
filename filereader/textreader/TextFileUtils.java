@@ -4,8 +4,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
 
+import javax.swing.JTextPane;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.SimpleAttributeSet;
+
 import filereader.MainPane;
-import javafx.scene.control.TextArea;
 
 public class TextFileUtils {
 	private static File currentFile;
@@ -18,9 +21,9 @@ public class TextFileUtils {
 		currentFile = file;
 	}
 
-	private TextArea outputArea;
+	private JTextPane outputArea;
 
-	public TextFileUtils(TextArea outputArea) {
+	public TextFileUtils(JTextPane outputArea) {
 		this.outputArea = outputArea;
 	}
 
@@ -28,11 +31,12 @@ public class TextFileUtils {
 	private TextFileUtils() {
 	}
 
-	public void readFile(File file) throws IOException {
-		MainPane.getTextPane().getOutputArea().setText("");
+	public void readFile(File file) throws IOException, BadLocationException {
+		MainPane.getTextPane().setText("");
 		Scanner reader = new Scanner(file);
 		while (reader.hasNext()) {
-			outputArea.appendText(reader.nextLine() + "\n");
+			outputArea.getDocument().insertString(outputArea.getDocument().getLength(), reader.nextLine() + "\n",
+					new SimpleAttributeSet());
 		}
 		reader.close();
 	}

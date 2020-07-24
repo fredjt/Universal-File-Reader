@@ -1,21 +1,21 @@
 package filereader.textreader;
 
-import javafx.scene.control.TextArea;
-import javafx.scene.layout.BorderPane;
+import java.awt.FlowLayout;
 
-public class TextFilePane extends BorderPane {
-	private TextArea outputArea;
+import javax.swing.JPanel;
+import javax.swing.JTextPane;
+
+@SuppressWarnings("serial")
+public class TextFilePane extends JPanel {
+	private JTextPane outputArea;
 
 	public TextFilePane() {
-		outputArea = new TextArea();
-
-		setCenter(outputArea);
+		setLayout(new FlowLayout());
+		outputArea = new JTextPane();
+		add(outputArea);
 	}
 
-	/**
-	 * @return the output TextArea
-	 */
-	public TextArea getOutputArea() {
+	public JTextPane getOutputArea() {
 		return outputArea;
 	}
 }

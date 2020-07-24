@@ -4,12 +4,14 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-import javafx.scene.control.TextArea;
+import javax.swing.JTextPane;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.SimpleAttributeSet;
 
 public class BinaryFileUtils {
-	private TextArea outputArea;
+	private JTextPane outputArea;
 
-	public BinaryFileUtils(TextArea outputArea) {
+	public BinaryFileUtils(JTextPane outputArea) {
 		this.outputArea = outputArea;
 	}
 
@@ -17,7 +19,7 @@ public class BinaryFileUtils {
 	private BinaryFileUtils() {
 	}
 
-	public void readFile(File file) throws IOException {
+	public void readFile(File file) throws IOException, BadLocationException {
 		int i = 0;
 		int j;
 		int nextByte = 0;
@@ -30,7 +32,8 @@ public class BinaryFileUtils {
 			while (j++ < 16 && (nextByte = reader.read()) != -1) {
 				line += String.format("\t%02X", nextByte);
 			}
-			outputArea.appendText(String.format("%07X0 \t", i) + line + "\n");
+			outputArea.getDocument().insertString(outputArea.getDocument().getLength(),
+					String.format("%07X0 \t", i) + line + "\n", new SimpleAttributeSet());
 			i++;
 		}
 		reader.close();

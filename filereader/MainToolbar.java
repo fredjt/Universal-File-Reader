@@ -1,46 +1,58 @@
 package filereader;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import filereader.textreader.TextFileUtils;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.HBox;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.JTextPane;
+import javax.swing.text.BadLocationException;
 
-public class MainToolbar extends HBox {
-	class OpenFileHandler implements EventHandler<ActionEvent> {
-		@Override
-		public void handle(ActionEvent event) {
-			FileChooser fileChooser = new FileChooser();
-			TextFileUtils.setCurrentFile(fileChooser.showOpenDialog(new Stage()));
-			pathField.setText(TextFileUtils.getCurrentFile().toString());
-			try {
-				Utils fileOpener = new Utils(outputArea);
-				fileOpener.openEditor(TextFileUtils.getCurrentFile());
-			} catch (IOException e) {
-				e.printStackTrace();
+import filereader.textreader.TextFileUtils;
+
+@SuppressWarnings("serial")
+public class MainToolbar extends JPanel {
+	static class OpenFileHandler {
+		public static void handle() {
+			JFileChooser fileChooser = new JFileChooser();
+			int success = fileChooser.showOpenDialog(null);
+			if (success == JFileChooser.APPROVE_OPTION) {
+				TextFileUtils.setCurrentFile(fileChooser.getSelectedFile());
+				pathField.setText(TextFileUtils.getCurrentFile().toString());
+				pathField.setColumns(pathField.getText().length());
+				try {
+					Utils fileOpener = new Utils(outputArea);
+					fileOpener.openEditor(TextFileUtils.getCurrentFile());
+				} catch (IOException | BadLocationException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}
 
-	private static Button openButton;
-	private TextArea outputArea;
-	private TextField pathField;
+	private static JButton openButton;
+	private static JTextPane outputArea;
+	private static JTextField pathField;
 
-	MainToolbar(TextArea outputArea) throws IOException {
-		this.outputArea = outputArea;
-		openButton = new Button("Open");
-		openButton.setOnAction(new OpenFileHandler());
-		pathField = new TextField();
-		pathField.setPrefColumnCount(50);
+	MainToolbar(JTextPane outputArea) throws IOException {
+		MainToolbar.outputArea = outputArea;
+		openButton = new JButton("Open");
+		openButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				OpenFileHandler.handle();
+			}
+		});
+		pathField = new JTextField();
+		pathField.setColumns(50);
 		pathField.setEditable(false);
-		getChildren().addAll(openButton, pathField);
+		add(openButton);
+		add(pathField);
 		if (!(GUI.file == null)) {
 			if (GUI.file.isFile()) {
 				TextFileUtils.setCurrentFile(GUI.file);
@@ -49,7 +61,7 @@ public class MainToolbar extends HBox {
 				try {
 					Utils fileOpener = new Utils(outputArea);
 					fileOpener.openEditor(TextFileUtils.getCurrentFile());
-				} catch (IOException e) {
+				} catch (IOException | BadLocationException e) {
 					e.printStackTrace();
 				}
 			} else {
