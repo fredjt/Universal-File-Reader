@@ -1,5 +1,6 @@
 package filereader;
 
+import java.awt.Dimension;
 import java.io.File;
 import java.io.IOException;
 
@@ -19,6 +20,8 @@ public class GUI extends JFrame {
 		JFrame frame = new JFrame();
 		frame.add(pane);
 		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		frame.setMinimumSize(new Dimension(1000, 700));
+		frame.setLocationByPlatform(true);
 		frame.setExtendedState(MAXIMIZED_BOTH);
 		frame.setVisible(true);
 	}
