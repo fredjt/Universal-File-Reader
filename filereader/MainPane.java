@@ -9,6 +9,7 @@ import javax.swing.JTextPane;
 
 @SuppressWarnings("serial")
 public class MainPane extends JPanel {
+	private static Footer footer;
 	private static MainToolbar mainToolbar;
 	private static JTextPane textPane;
 
@@ -21,8 +22,11 @@ public class MainPane extends JPanel {
 		textPane = new JTextPane();
 		textPane.setEditable(false);
 		JScrollPane scrollPane = new JScrollPane(textPane);
-		mainToolbar = new MainToolbar(textPane);
+		footer = new Footer();
+		mainToolbar = new MainToolbar(textPane, footer);
+
 		add(mainToolbar, BorderLayout.NORTH);
 		add(scrollPane, BorderLayout.CENTER);
+		add(footer, BorderLayout.SOUTH);
 	}
 }
