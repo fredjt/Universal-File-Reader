@@ -2,6 +2,7 @@ package filereader;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
@@ -14,11 +15,14 @@ import javax.swing.JTextPane;
 import filereader.binaryreader.BinaryFileUtils;
 import filereader.textreader.TextFileUtils;
 
-public class Utils {
+public class Utils extends Thread {
+	private File file;
 	private static boolean isBuffered;
+
 	public static void setBuffered(boolean isBuffered) {
 		Utils.isBuffered = isBuffered;
 	}
+
 	private ArrayList<ArrayList<Object>> fileTypes;
 	private Footer footer;
 
@@ -36,11 +40,22 @@ public class Utils {
 	public boolean isBuffered() {
 		return isBuffered;
 	}
-
-	public void openEditor(File file) throws Exception {
-		Scanner reader = new Scanner(file);
+	
+	@Override 
+	public void run() {
+		Scanner reader = null;
+		try {
+			reader = new Scanner(file);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 		FileType fileOpener;
-		String fileType = probeContentType(file);
+		String fileType = "";
+		try {
+			fileType = probeContentType(file);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		footer.setText(fileType);
 		System.out.println(fileType);
 		if (fileType != null && fileType.contains("text")) {
@@ -48,8 +63,17 @@ public class Utils {
 		} else {
 			fileOpener = new BinaryFileUtils(outputArea);
 		}
-		fileOpener.readFile(file);
+		try {
+			fileOpener.readFile(file);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		reader.close();
+	}
+
+	public void openEditor(File file) {
+		this.file = file;
+		this.start();
 	}
 
 	public String probeContentType(File file) throws IOException {

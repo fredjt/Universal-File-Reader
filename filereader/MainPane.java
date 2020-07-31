@@ -17,7 +17,7 @@ public class MainPane extends JPanel {
 		return textPane;
 	}
 
-	MainPane() throws IOException {
+	MainPane() throws IOException, ClassNotFoundException {
 		setLayout(new BorderLayout());
 		textPane = new JTextPane();
 		textPane.setEditable(false);

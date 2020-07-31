@@ -25,7 +25,11 @@ public class MainToolbar extends JPanel {
 				pathField.setText(TextFileUtils.getCurrentFile().toString());
 				pathField.setColumns(pathField.getText().length());
 				try {
-					Utils fileOpener = new Utils(outputArea, footer);
+					if (fileOpener.isAlive()) {
+						Thread.sleep(10);
+						fileOpener.interrupt();
+					}
+					fileOpener = new Utils(outputArea, footer);
 					fileOpener.openEditor(TextFileUtils.getCurrentFile());
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -34,12 +38,14 @@ public class MainToolbar extends JPanel {
 		}
 	}
 
+	private static Utils fileOpener;
 	private static Footer footer;
 	private static JButton openButton;
 	private static JTextPane outputArea;
 	private static JTextField pathField;
 
-	MainToolbar(JTextPane textPane, Footer footer) throws IOException {
+	MainToolbar(JTextPane textPane, Footer footer) throws IOException, ClassNotFoundException {
+		fileOpener = new Utils(textPane, footer);
 		MainToolbar.footer = footer;
 		MainToolbar.outputArea = textPane;
 		openButton = new JButton("Open");
