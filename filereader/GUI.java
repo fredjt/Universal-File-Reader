@@ -11,7 +11,7 @@ public class GUI extends JFrame {
 	private static MainPane pane;
 	static File file;
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, ClassNotFoundException {
 		if (args.length > 1)
 			throw new IllegalArgumentException("Too many arguments!\nUse: java GUI [filename]");
 		if (args.length == 1)
