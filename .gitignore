@@ -1,1 +1,9 @@
 /GUI.class
+/bin/
+*.class
+*.class
+filereader/binaryreader/BinaryFileUtils.class
+filereader/binaryreader/package-info.class
+filereader/CreateFileTypeProperties.class
+*.class
+filereader/binaryreader/BinaryFileUtils.class
