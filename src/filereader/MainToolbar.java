@@ -1,4 +1,3 @@
-package filereader;
 /*
 ##################################################################################
 # MIT License                                                                    #
@@ -26,74 +25,143 @@ package filereader;
 ##################################################################################
  */
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.File;
+package filereader;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 
-import filereader.textreader.TextFileUtils;
-
+/**
+ * @author Fred T
+ *
+ */
 @SuppressWarnings("serial")
 public class MainToolbar extends JPanel {
-	static class OpenFileHandler {
-		public static void handle(File file) {
-			JFileChooser fileChooser = new JFileChooser(file);
-			int success = fileChooser.showOpenDialog(null);
-			if (success == JFileChooser.APPROVE_OPTION) {
-				TextFileUtils.setCurrentFile(fileChooser.getSelectedFile());
-				pathField.setText(TextFileUtils.getCurrentFile().toString());
-				pathField.setColumns(pathField.getText().length());
-				try {
-					Utils fileOpener = new Utils(outputArea, footer);
-					fileOpener.openEditor(TextFileUtils.getCurrentFile());
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		}
-	}
-
-	private static Footer footer;
-	private static JButton openButton;
-	private static JTextPane outputArea;
+	private static Menubar menubar;
 	private static JTextField pathField;
 
-	MainToolbar(JTextPane textPane, Footer footer) throws IOException {
-		MainToolbar.footer = footer;
-		MainToolbar.outputArea = textPane;
-		openButton = new JButton("Open");
-		openButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				OpenFileHandler.handle(TextFileUtils.getCurrentFile());
-			}
-		});
+	/**
+	 * @return
+	 */
+	public static Menubar getMenubar() {
+		return MainToolbar.menubar;
+	}
+
+	/**
+	 * @return the field containing the current file path
+	 */
+	public static JTextField getPathField() {
+		return MainToolbar.pathField;
+	}
+
+	/**
+	 * @param menubar the menubar to set
+	 */
+	public static void setMenubar(Menubar menubar) {
+		MainToolbar.menubar = menubar;
+	}
+
+	/**
+	 * @param pathField the pathField to set
+	 */
+	public static void setPathField(JTextField pathField) {
+		MainToolbar.pathField = pathField;
+	}
+
+	private Utils fileOpener;
+
+	/**
+	 * @param textPane the output text area for the file contents
+	 * @param footer   the output text area for the file type
+	 * @throws IOException
+	 */
+	public MainToolbar(JTextPane textPane, Footer footer) throws IOException {
 		pathField = new JTextField();
 		pathField.setColumns(50);
 		pathField.setEditable(false);
-		add(openButton);
 		add(pathField);
-		if (!(GUI.file == null)) {
-			if (GUI.file.isFile()) {
-				TextFileUtils.setCurrentFile(GUI.file);
-				pathField.setText(TextFileUtils.getCurrentFile().toString());
-				GUI.file = null;
+		if (!(GUI.getFile() == null)) {
+			if (GUI.getFile().isFile()) {
+				Utils.setCurrentFile(GUI.getFile());
+				pathField.setText(Utils.getCurrentFile().toString());
+				GUI.setFile(null);
 				try {
-					Utils fileOpener = new Utils(textPane, footer);
-					fileOpener.openEditor(TextFileUtils.getCurrentFile());
+					Thread.sleep(100);
+					fileOpener.interrupt();
+					fileOpener = new Utils(textPane, footer);
+					fileOpener.openAutomaticEditor(Utils.getCurrentFile());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			} else {
-				throw new FileNotFoundException("File does not exist!");
+				throw new FileNotFoundException(Messages.getString("MainToolbar.0")); //$NON-NLS-1$
 			}
 		}
+
+		menubar = new Menubar(textPane, footer);
+	}
+
+	/**
+	 *
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!(obj instanceof MainToolbar))
+			return false;
+		MainToolbar other = (MainToolbar) obj;
+		if (fileOpener == null) {
+			if (other.fileOpener != null)
+				return false;
+		} else if (!fileOpener.equals(other.fileOpener))
+			return false;
+		return true;
+	}
+
+	/**
+	 * @return the Utils object for opening files
+	 */
+	public Utils getFileOpener() {
+		return fileOpener;
+	}
+
+	/**
+	 *
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((fileOpener == null) ? 0 : fileOpener.hashCode());
+		return result;
+	}
+
+	/**
+	 * @param fileOpener the fileOpener to set
+	 */
+	public void setFileOpener(Utils fileOpener) {
+		this.fileOpener = fileOpener;
+	}
+
+	/**
+	 *
+	 */
+	@Override
+	public String toString() {
+		return "MainToolbar [fileOpener=" + fileOpener + "]";
+	}
+
+	/**
+	 *
+	 */
+	@Override
+	protected Object clone() throws CloneNotSupportedException {
+		MainToolbar clone = (MainToolbar) super.clone();
+		clone.fileOpener = this.fileOpener;
+		return clone;
 	}
 }

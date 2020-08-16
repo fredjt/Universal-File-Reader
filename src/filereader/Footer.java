@@ -1,4 +1,3 @@
-package filereader;
 /*
 ##################################################################################
 # MIT License                                                                    #
@@ -26,15 +25,24 @@ package filereader;
 ##################################################################################
  */
 
+package filereader;
+
 import java.awt.FlowLayout;
 
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+/**
+ * @author Fred T
+ *
+ */
 @SuppressWarnings("serial")
 public class Footer extends JPanel {
 	private static JTextField fileType;
 
+	/**
+	 * 
+	 */
 	public Footer() {
 		fileType = new JTextField(20);
 		fileType.setEditable(false);
@@ -42,8 +50,30 @@ public class Footer extends JPanel {
 		add(fileType);
 	}
 
+	/**
+	 * @return
+	 */
+	public String getText() {
+		return fileType.getText();
+	}
+
+	/**
+	 * @param text
+	 */
 	public void setText(String text) {
 		fileType.setText(text);
-		System.out.println(fileType.getText());
+	}
+
+	/**
+	 * 
+	 */
+	@Override
+	protected Object clone() throws CloneNotSupportedException {
+		Footer clone = new Footer();
+		clone.setText(this.getText());
+		clone.accessibleContext = this.accessibleContext;
+		clone.listenerList = this.listenerList;
+		clone.ui = this.ui;
+		return clone;
 	}
 }

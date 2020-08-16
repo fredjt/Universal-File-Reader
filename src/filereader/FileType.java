@@ -28,6 +28,16 @@ package filereader;
 
 import java.io.File;
 
+/**
+ * @author Fred T
+ *
+ */
 public interface FileType {
+	public final String root = Messages.getString("FileType.0"); //$NON-NLS-1$
+
+	/**
+	 * @param file the file to read
+	 * @throws Exception
+	 */
 	public void readFile(File file) throws Exception;
 }

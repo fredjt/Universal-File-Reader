@@ -1,4 +1,3 @@
-package filereader;
 /*
 ##################################################################################
 # MIT License                                                                    #
@@ -26,29 +25,69 @@ package filereader;
 ##################################################################################
  */
 
+package filereader;
+
 import java.awt.Dimension;
 import java.io.File;
 import java.io.IOException;
 
 import javax.swing.JFrame;
 
+/**
+ * @author Fred T
+ *
+ */
 @SuppressWarnings({ "serial" })
 public class GUI extends JFrame {
+	private static File file;
 	private static MainPane pane;
-	static File file;
 
-	public static void main(String[] args) throws IOException {
+	/**
+	 * @return the file
+	 */
+	public static File getFile() {
+		return file;
+	}
+
+	/**
+	 * @return the pane
+	 */
+	public static MainPane getPane() {
+		return pane;
+	}
+
+	/**
+	 * @param args
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 */
+	public static void main(String[] args) throws IOException, ClassNotFoundException {
 		if (args.length > 1)
-			throw new IllegalArgumentException("Too many arguments!\nUse: java GUI [filename]");
+			throw new IllegalArgumentException(Messages.getString("GUI.0")); //$NON-NLS-1$
 		if (args.length == 1)
 			GUI.file = new File(args[0]);
 		pane = new MainPane();
 		JFrame frame = new JFrame();
 		frame.add(pane);
+		frame.setJMenuBar(MainToolbar.getMenubar());
 		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		frame.setMinimumSize(new Dimension(1000, 700));
 		frame.setLocationByPlatform(true);
 		frame.setExtendedState(MAXIMIZED_BOTH);
 		frame.setVisible(true);
+	}
+
+	/**
+	 * @param file the file to set
+	 */
+	public static void setFile(File file) {
+		GUI.file = file;
+	}
+
+	/**
+	 * @param pane the pane to set
+	 */
+	public static void setPane(MainPane pane) {
+		GUI.pane = pane;
 	}
 }

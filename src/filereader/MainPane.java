@@ -1,4 +1,3 @@
-package filereader;
 /*
 ##################################################################################
 # MIT License                                                                    #
@@ -26,6 +25,8 @@ package filereader;
 ##################################################################################
  */
 
+package filereader;
+
 import java.awt.BorderLayout;
 import java.io.IOException;
 
@@ -33,17 +34,63 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 
+/**
+ * @author Fred T
+ *
+ */
 @SuppressWarnings("serial")
 public class MainPane extends JPanel {
 	private static Footer footer;
 	private static MainToolbar mainToolbar;
 	private static JTextPane textPane;
 
+	/**
+	 * @return the footer
+	 */
+	public static Footer getFooter() {
+		return footer;
+	}
+
+	/**
+	 * @return the mainToolbar
+	 */
+	public static MainToolbar getMainToolbar() {
+		return mainToolbar;
+	}
+
+	/**
+	 * @return
+	 */
 	public static JTextPane getTextPane() {
 		return textPane;
 	}
 
-	MainPane() throws IOException {
+	/**
+	 * @param footer the footer to set
+	 */
+	public static void setFooter(Footer footer) {
+		MainPane.footer = footer;
+	}
+
+	/**
+	 * @param mainToolbar the mainToolbar to set
+	 */
+	public static void setMainToolbar(MainToolbar mainToolbar) {
+		MainPane.mainToolbar = mainToolbar;
+	}
+
+	/**
+	 * @param textPane the textPane to set
+	 */
+	public static void setTextPane(JTextPane textPane) {
+		MainPane.textPane = textPane;
+	}
+
+	/**
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 */
+	public MainPane() throws IOException, ClassNotFoundException {
 		setLayout(new BorderLayout());
 		textPane = new JTextPane();
 		textPane.setEditable(false);
