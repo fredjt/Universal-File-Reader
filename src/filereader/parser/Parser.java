@@ -48,10 +48,10 @@ import filereader.Utils;
  */
 public class Parser {
 	private static int begin, end;
-	private static SimpleAttributeSet defaultStyle = new SimpleAttributeSet();
-	private static ArrayList<Object> functions, symbols;
+	private static ArrayList<Object> comments, functions, symbols;
 	@SuppressWarnings("unused")
-	private static SimpleAttributeSet functionStyle, symbolStyle;
+	private static SimpleAttributeSet commentStyle, functionStyle, symbolStyle;
+	private static SimpleAttributeSet defaultStyle = new SimpleAttributeSet();
 
 	/**
 	 * @param args
@@ -59,18 +59,18 @@ public class Parser {
 	 * @throws ClassNotFoundException
 	 */
 	public static void main(String[] args) throws IOException, ClassNotFoundException {
-		ObjectInputStream objIn = new ObjectInputStream(new FileInputStream(Messages.getString("Parser.0"))); //$NON-NLS-1$
+		ObjectInputStream objIn = new ObjectInputStream(
+				new FileInputStream("src/filereader/parser/mathematicaNotebook/functions.dat"));
 		@SuppressWarnings("unchecked")
 		ArrayList<Object> functionproperties = (ArrayList<Object>) objIn.readObject();
 		objIn.close();
 
 		for (int i = 0; i < functionproperties.size(); i++)
 			System.out.flush();
-		System.out
-				.println(Messages.getString("Parser.1") + functionproperties.contains(Messages.getString("Parser.2"))); //$NON-NLS-1$ //$NON-NLS-2$
+		System.out.println("Is Abs a function? " + functionproperties.contains("Abs"));
 	}
 
-	private String currentToken = Messages.getString("Parser.3"); //$NON-NLS-1$
+	private String currentToken = "";
 
 	/**
 	 * @param e
@@ -135,20 +135,24 @@ public class Parser {
 	public void parse(StyledDocument document, String token)
 			throws BadLocationException, IOException, ClassNotFoundException {
 		if (functionStyle == null) {
-			ObjectInputStream objIn = new ObjectInputStream(new FileInputStream(Messages.getString("Parser.4") //$NON-NLS-1$
-					+ ((Properties) Utils.getFileTypes().get(1).get(Utils.getFileDesc()))
-							.get(Messages.getString("Parser.5")) //$NON-NLS-1$
-					+ Messages.getString("Parser.6"))); //$NON-NLS-1$
+			ObjectInputStream objIn = new ObjectInputStream(new FileInputStream("src/filereader/parser/"
+					+ ((Properties) Utils.getFileTypes().get(1).get(Utils.getFileDesc())).get("folder")
+					+ "/functions.dat"));
 			functions = (ArrayList<Object>) objIn.readObject();
 			objIn.close();
 			functionStyle = (SimpleAttributeSet) functions.get(0);
-			objIn = new ObjectInputStream(new FileInputStream(Messages.getString("Parser.7") //$NON-NLS-1$
-					+ ((Properties) Utils.getFileTypes().get(1).get(Utils.getFileDesc()))
-							.get(Messages.getString("Parser.8")) //$NON-NLS-1$
-					+ Messages.getString("Parser.9"))); //$NON-NLS-1$
+			objIn = new ObjectInputStream(new FileInputStream("src/filereader/parser/"
+					+ ((Properties) Utils.getFileTypes().get(1).get(Utils.getFileDesc())).get("folder")
+					+ "/symbols.dat"));
 			symbols = (ArrayList<Object>) objIn.readObject();
 			objIn.close();
 			symbolStyle = (SimpleAttributeSet) symbols.get(0);
+			objIn = new ObjectInputStream(new FileInputStream("src/filereader/parser/"
+					+ ((Properties) Utils.getFileTypes().get(1).get(Utils.getFileDesc())).get("folder")
+					+ "/comments.dat"));
+			comments = (ArrayList<Object>) objIn.readObject();
+			objIn.close();
+			commentStyle = (SimpleAttributeSet) comments.get(0);
 		}
 		if (functions.contains(token)) {
 			document.setCharacterAttributes(begin, end - begin + 1, functionStyle, true);
@@ -167,33 +171,59 @@ public class Parser {
 	@SuppressWarnings("unchecked")
 	public void parseDocument(JTextPane outputArea, InputStream in)
 			throws IOException, ClassNotFoundException, BadLocationException {
+		outputArea.setText("");
 		StyledDocument document = outputArea.getStyledDocument();
 		if (functionStyle == null) {
-			ObjectInputStream objIn = new ObjectInputStream(new FileInputStream(Messages.getString("Parser.11") //$NON-NLS-1$
-					+ ((Properties) Utils.getFileTypes().get(1).get(Utils.getFileDesc()))
-							.get(Messages.getString("Parser.12")) //$NON-NLS-1$
-					+ Messages.getString("Parser.13"))); //$NON-NLS-1$
+			ObjectInputStream objIn = new ObjectInputStream(new FileInputStream("src/filereader/parser/"
+					+ ((Properties) Utils.getFileTypes().get(1).get(Utils.getFileDesc())).get("folder")
+					+ "/functions.dat"));
 			functions = (ArrayList<Object>) objIn.readObject();
 			objIn.close();
 			functionStyle = (SimpleAttributeSet) functions.get(0);
-			objIn = new ObjectInputStream(new FileInputStream(Messages.getString("Parser.14") //$NON-NLS-1$
-					+ ((Properties) Utils.getFileTypes().get(1).get(Utils.getFileDesc()))
-							.get(Messages.getString("Parser.15")) //$NON-NLS-1$
-					+ Messages.getString("Parser.16"))); //$NON-NLS-1$
+			objIn = new ObjectInputStream(new FileInputStream("src/filereader/parser/"
+					+ ((Properties) Utils.getFileTypes().get(1).get(Utils.getFileDesc())).get("folder")
+					+ "/symbols.dat"));
 			symbols = (ArrayList<Object>) objIn.readObject();
 			objIn.close();
 			symbolStyle = (SimpleAttributeSet) symbols.get(0);
+			objIn = new ObjectInputStream(new FileInputStream("src/filereader/parser/"
+					+ ((Properties) Utils.getFileTypes().get(1).get(Utils.getFileDesc())).get("folder")
+					+ "/comments.dat"));
+			comments = (ArrayList<Object>) objIn.readObject();
+			objIn.close();
+			commentStyle = (SimpleAttributeSet) comments.get(0);
 		}
-		int temp;
-		String token = Messages.getString("Parser.17"); //$NON-NLS-1$
+		int temp, comment = 0, commentq = 0, commentclsq = 0;
+		String token = "";
 		while ((temp = in.read()) != -1) {
-			if (!(Character.isLetter(temp) || temp == '_')) {
+			if (commentq == 1 && temp != '*')
+				commentq = 0;
+			if (comment == 1 && commentclsq == 1 && temp != ')')
+				commentclsq = 0;
+			if (temp == '(') {
+				commentq = 1;
+			} else if (commentq == 1 && comment == 0 && temp == '*') {
+				comment = 1;
+				if (token.length() > 1)
+					document.insertString(document.getLength(), token.substring(0, token.length() - 2), defaultStyle);
+				token = "(*";
+			} else if (comment == 1 && temp == '*') {
+				commentclsq = 1;
+			} else if (comment == 1 && commentclsq == 1 && temp == ')') {
+				comment = 0;
+				commentclsq = 0;
+				document.insertString(document.getLength(), token + ")", commentStyle);
+				token = "";
+				continue;
+			}
+			if (!(Character.isLetter(temp) || temp == '_') && comment == 0 && !(commentq == 1 && temp == '(')) {
 				if (functions.contains(token)) {
 					document.insertString(document.getLength(), token, functionStyle);
+					document.insertString(document.getLength(), "" + (char) temp, defaultStyle);
 				} else {
-					document.insertString(document.getLength(), token, defaultStyle);
+					document.insertString(document.getLength(), token + (char) temp, defaultStyle);
 				}
-				token = Messages.getString("Parser.19"); //$NON-NLS-1$
+				token = "";
 			} else {
 				token += (char) temp;
 			}

@@ -97,7 +97,7 @@ public class MainToolbar extends JPanel {
 					e.printStackTrace();
 				}
 			} else {
-				throw new FileNotFoundException(Messages.getString("MainToolbar.0")); //$NON-NLS-1$
+				throw new FileNotFoundException("File does not exist!");
 			}
 		}
 
