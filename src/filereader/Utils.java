@@ -157,9 +157,8 @@ public class Utils extends Thread {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		footer.setText(fileDesc != 0
-				? (String) ((Properties) fileTypes.get(1).get(fileDesc)).get(Messages.getString("Utils.0")) //$NON-NLS-1$
-				: Messages.getString("Utils.1")); //$NON-NLS-1$
+		footer.setText(fileDesc != 0 ? (String) ((Properties) fileTypes.get(1).get(fileDesc)).get("description")
+				: "text/plain");
 		if (fileDesc == 0 || fileDesc == 1) {
 			fileDesc = 1;
 			FileInputStream in = new FileInputStream(file);
@@ -169,7 +168,7 @@ public class Utils extends Thread {
 					ur++;
 					if (ur >= file.length() / 1000) {
 						in.close();
-						footer.setText(Messages.getString("Utils.5")); //$NON-NLS-1$
+						footer.setText("application/octet-stream");
 						fileDesc = 0;
 						break;
 					}
@@ -177,7 +176,7 @@ public class Utils extends Thread {
 			}
 			in.close();
 		}
-		Utils.editor = (FileType) ((Properties) fileTypes.get(1).get(fileDesc)).get(Messages.getString("Utils.7"));
+		Utils.editor = (FileType) ((Properties) fileTypes.get(1).get(fileDesc)).get("object");
 		this.start();
 	}
 
@@ -203,14 +202,13 @@ public class Utils extends Thread {
 		FileInputStream in = new FileInputStream(file);
 		String[] tmp, exts;
 		String temp, ext;
-		String magic = Messages.getString("Utils.9"); //$NON-NLS-1$
+		String magic = "";
 		byte[] magicarray;
 		int bestMatch = 0;
 		for (int i = 0; i < fileTypes.get(1).size(); i++) {
-			tmp = (String[]) (((Properties) fileTypes.get(1).get(i)).getOrDefault(Messages.getString("Utils.11"), //$NON-NLS-1$
-					new String[] { Messages.getString("Utils.12") })); //$NON-NLS-1$
+			tmp = (String[]) (((Properties) fileTypes.get(1).get(i)).getOrDefault("magic", new String[] { "" }));
 			for (int j = 0; j < (tmp.length); j++) {
-				magic = Messages.getString("Utils.13"); //$NON-NLS-1$
+				magic = "";
 				temp = tmp[j];
 				if (in.markSupported()) {
 					in.reset();
@@ -228,7 +226,7 @@ public class Utils extends Thread {
 				magicarray = new byte[(temp.length() - 7 * count) / 2];
 				if (temp.length() == 0 && file.toString().lastIndexOf('.') != -1) {
 					ext = file.toString().substring(file.toString().lastIndexOf('.'));
-					exts = (String[]) ((Properties) fileTypes.get(1).get(i)).get(Messages.getString("Utils.16")); //$NON-NLS-1$
+					exts = (String[]) ((Properties) fileTypes.get(1).get(i)).get("extensions");
 					for (int m = 0; m < exts.length; m++) {
 						if (exts[m].equals(ext)) {
 							in.close();
@@ -239,10 +237,10 @@ public class Utils extends Thread {
 				}
 				in.read(magicarray);
 				for (int k = 0; k < magicarray.length; k++)
-					magic += String.format(Messages.getString("Utils.19"), magicarray[k]); //$NON-NLS-1$
+					magic += String.format("%02X", magicarray[k]);
 				if (Pattern.matches(temp, magic) && file.toString().lastIndexOf('.') != -1) {
 					ext = file.toString().substring(file.toString().lastIndexOf('.'));
-					exts = (String[]) ((Properties) fileTypes.get(1).get(i)).get(Messages.getString("Utils.22")); //$NON-NLS-1$
+					exts = (String[]) ((Properties) fileTypes.get(1).get(i)).get("extensions");
 					for (int m = 0; m < exts.length; m++) {
 						if (exts[m].equals(ext)) {
 							in.close();

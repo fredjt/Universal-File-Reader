@@ -33,7 +33,7 @@ import java.io.File;
  *
  */
 public interface FileType {
-	public final String root = Messages.getString("FileType.0"); //$NON-NLS-1$
+	public final String root = "src/filereader/parser";
 
 	/**
 	 * @param file the file to read

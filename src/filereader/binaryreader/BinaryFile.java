@@ -51,21 +51,17 @@ public abstract class BinaryFile implements FileType, Serializable {
 	@Override
 	public void readFile(File file) throws IOException, BadLocationException {
 		int i, j;
-		MainPane.getTextPane().setText(Messages.getString("BinaryFile.1")); //$NON-NLS-1$
-		MainPane.getTextPane().setFont(Font.decode(Messages.getString("BinaryFile.2"))); //$NON-NLS-1$
+		MainPane.getTextPane().setText("");
+		MainPane.getTextPane().setFont(Font.decode("COURIER NEW"));
 		@SuppressWarnings("resource")
 		FileInputStream input = new FileInputStream(file);
 		for (j = 0; j < file.length(); j++) {
 			i = input.read();
 			if (j % 16 == 0)
 				MainPane.getTextPane().getDocument().insertString(MainPane.getTextPane().getDocument().getLength(),
-						String.format(j == 0 ? Messages.getString("BinaryFile.3") : Messages.getString("BinaryFile.4"), //$NON-NLS-1$ //$NON-NLS-2$
-								j / 16),
-						new SimpleAttributeSet());
+						String.format(j == 0 ? "%07X0   " : "\n%07X0   ", j / 16), new SimpleAttributeSet());
 			MainPane.getTextPane().getDocument().insertString(MainPane.getTextPane().getDocument().getLength(),
-					j % 8 == 0 ? String.format(Messages.getString("BinaryFile.5"), i) //$NON-NLS-1$
-							: String.format(Messages.getString("BinaryFile.6"), i), //$NON-NLS-1$
-					new SimpleAttributeSet());
+					j % 8 == 0 ? String.format("    %02X", i) : String.format("  %02X", i), new SimpleAttributeSet());
 			MainPane.getTextPane().validate();
 		}
 		MainPane.getTextPane().setCaretPosition(0);

@@ -83,13 +83,12 @@ public class Menubar extends JMenuBar {
 		 */
 		public static void manualFileOpener(File initfile) throws Exception {
 			File file = openFile(initfile);
-			JFrame editorChooser = new JFrame(Messages.getString("Menubar.0")); //$NON-NLS-1$
+			JFrame editorChooser = new JFrame("Select Editor");
 			new Utils(outputArea, footer);
 			String[] editors = new String[Utils.getFileTypes().get(1).size()];
 			for (int i = 0; i < editors.length - 1; i++)
-				editors[i] = (String) ((Properties) Utils.getFileTypes().get(1).get(i))
-						.get(Messages.getString("Menubar.1")); //$NON-NLS-1$
-			editors[editors.length - 1] = Messages.getString("Menubar.2"); //$NON-NLS-1$
+				editors[i] = (String) ((Properties) Utils.getFileTypes().get(1).get(i)).get("description");
+			editors[editors.length - 1] = "automatic";
 			JList<String> list = new JList<>(editors);
 			list.addListSelectionListener(e -> {
 				editorChooser.dispose();
@@ -117,8 +116,7 @@ public class Menubar extends JMenuBar {
 							Thread.sleep(100);
 							fileOpener.interrupt();
 						}
-						Utils.setEditor((FileType) ((Properties) Utils.getFileTypes().get(1).get(index))
-								.get(Messages.getString("Menubar.3"))); //$NON-NLS-1$
+						Utils.setEditor((FileType) ((Properties) Utils.getFileTypes().get(1).get(index)).get("object"));
 						fileOpener = new Utils(outputArea, footer);
 						fileOpener.setFile(file);
 						fileOpener.start();
@@ -222,15 +220,15 @@ public class Menubar extends JMenuBar {
 		Menubar.footer = footer;
 		Menubar.pathField = MainToolbar.getPathField();
 
-		JMenu fileMenu = new JMenu(Messages.getString("Menubar.4")); //$NON-NLS-1$
+		JMenu fileMenu = new JMenu("File");
 
-		JMenuItem openItem = new JMenuItem(Messages.getString("Menubar.5")); //$NON-NLS-1$
+		JMenuItem openItem = new JMenuItem("Open...");
 		openItem.addActionListener(e -> {
 			OpenFileHandler.automaticFileOpener(Utils.getCurrentFile());
 		});
 		fileMenu.add(openItem);
 
-		JMenuItem openWithItem = new JMenuItem(Messages.getString("Menubar.6")); //$NON-NLS-1$
+		JMenuItem openWithItem = new JMenuItem("Open With...");
 		openWithItem.addActionListener(e -> {
 			try {
 				OpenFileHandler.manualFileOpener(Utils.getCurrentFile());

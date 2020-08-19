@@ -35,7 +35,7 @@ public class CharacterData {
 	/**
 	 * 
 	 */
-	private static String textChars = Messages.getString("CharacterData.0"); //$NON-NLS-1$
+	private static String textChars = "@\\#¦(){} \\n\\r.:-/<>=\"\\t[]\\!?',^%*\\\\;+|©~±&`";
 
 	/**
 	 * @return the textChars
@@ -49,7 +49,7 @@ public class CharacterData {
 	 * @return true if c is a common text character
 	 */
 	public static boolean isText(char c) {
-		return Character.isJavaIdentifierPart(c) || textChars.contains(Messages.getString("CharacterData.1") + c); //$NON-NLS-1$
+		return Character.isJavaIdentifierPart(c) || textChars.contains("" + c);
 	}
 
 	/**

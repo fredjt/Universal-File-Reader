@@ -63,7 +63,7 @@ public class GUI extends JFrame {
 	 */
 	public static void main(String[] args) throws IOException, ClassNotFoundException {
 		if (args.length > 1)
-			throw new IllegalArgumentException(Messages.getString("GUI.0")); //$NON-NLS-1$
+			throw new IllegalArgumentException("Too many arguments!\nUse: java GUI [filename]");
 		if (args.length == 1)
 			GUI.file = new File(args[0]);
 		pane = new MainPane();

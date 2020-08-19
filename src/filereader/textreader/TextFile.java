@@ -48,7 +48,7 @@ public abstract class TextFile implements FileType, Serializable {
 	 */
 	@Override
 	public void readFile(File file) throws IOException, BadLocationException, ClassNotFoundException {
-		MainPane.getTextPane().setText(Messages.getString("TextFile.0")); //$NON-NLS-1$
+		MainPane.getTextPane().setText("");
 		MainPane.getTextPane().read(new FileInputStream(file), null);
 	}
 }
