@@ -7,3 +7,5 @@ filereader/binaryreader/package-info.class
 filereader/CreateFileTypeProperties.class
 *.class
 filereader/binaryreader/BinaryFileUtils.class
+/Debug/
+*.exe
