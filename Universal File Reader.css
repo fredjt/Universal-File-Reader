@@ -1,0 +1,76 @@
+@charset "ISO-8859-1";
+
+body {
+	text-align: center;
+	background-color: beige;
+}
+
+h1 {
+	font-size: 50px;
+	padding-top: 75px;
+}
+
+h2 {
+	padding-top: 75px;
+	font-size: 30px;
+}
+
+h3 {
+	border-style: solid;
+	width: 310px;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#p1 {
+	padding-top: 100px;
+	font-size: 20px;
+}
+
+#p2 {
+	padding-top: 75px;
+	padding-bottom: 75px;
+}
+
+#p3 {
+	position: fixed;
+	bottom: 0;
+	right: 25px;
+}
+
+#p4 {
+	padding-top: 25px;
+	font-size: 12px;
+}
+
+#Download {
+	font-size: 50px;
+}
+
+#Windows {
+	float: left;
+}
+
+#Java {
+	float: right;
+}
+
+#Downloads {
+	width: 500px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#currentVersion {
+	padding-top: 175px;
+}
+
+img {
+	padding-top: 50px;
+}
+
+a:link {
+	text-decoration: none;
+}
+
