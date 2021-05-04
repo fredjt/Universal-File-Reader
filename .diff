@@ -1,0 +1,10 @@
+%PROGRAMFILES% (x86)
+*/.cproject
++/.diff
+x/.version
+*/Universal File Reader/src/filereader/GUI.java
+*/.settings/language.settings.xml
++/Universal File Reader/src/filereader/utils/updater/package-info.java
++/Universal File Reader/src/filereader/utils/updater/Updater.java
+%PROGRAMDATA%
+%APPDATA%
